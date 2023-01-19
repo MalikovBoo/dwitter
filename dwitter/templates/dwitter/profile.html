@@ -5,12 +5,12 @@
 {% block content %}
 
 <div class="column">
-
     <div class="block">
     <h1 class="title is-1">
         {{profile.user.username|upper}}'s Dweets
     </h1>
     </div>
+    {% if user.is_authenticated %}
     <form method="post">
         {% csrf_token %}
         <div class="buttons has-addons">
@@ -27,6 +27,7 @@
         {% endif %}
         </div>
     </form>
+    {% endif %}
     <div class="content">
             {% for dweet in profile.user.dweets.all %}
                 <div class="box">

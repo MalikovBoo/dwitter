@@ -19,17 +19,25 @@
             <p class="subtitle is-4">
                 Your tiny social network built with Django
             </p>
+            <p class="subtitle is-6">
+                Hello, {{ user.username|default:'Guest' }}!
+                <div>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'dwitter:logout' %}">Logout</a>
+                    {% else %}
+                        <a href="{% url 'dwitter:login' %}">Login</a>
+                    {% endif %}
+                </div>
+            </p>
         </div>
     </section>
     </a>
 
     <div class="container">
         <div class="columns">
-
             {% block content %}
 
             {% endblock content %}
-
         </div>
     </div>
 </body>

@@ -12,34 +12,44 @@ def dashboard(request):
             dweet.save()
             return redirect("dwitter:dashboard")
 
-    followed_dweets = Dweet.objects.filter(
-        user__profile__in=request.user.profile.follows.all()
-    ).order_by("-created_at")
+    if request.user.is_authenticated:
+        followed_dweets = Dweet.objects.filter(
+            user__profile__in=request.user.profile.follows.all()
+        ).order_by("-created_at")
 
-    return render(
-        request,
-        "dwitter/dashboard.html",
-        {"form": form, "dweets": followed_dweets},)
+        return render(
+            request,
+            "dwitter/dashboard.html",
+            {"form": form, "dweets": followed_dweets},)
+    else:
+        return render(
+            request,
+            "dwitter/dashboard.html",
+            {"form": form, })
 
 
 def profile_list(request):
-    profiles = Profile.objects.exclude(user=request.user)
+    if request.user.is_authenticated:
+        profiles = Profile.objects.exclude(user=request.user).order_by("user")
+    else:
+        profiles = Profile.objects.all().order_by("user")
     return render(request, "dwitter/profile_list.html", {"profiles": profiles})
 
 
 def profile(request, pk):
-    if not hasattr(request.user, 'profile'):
-        missing_profile = Profile(user=request.user)
-        missing_profile.save()
+    ## if not hasattr(request.user, 'profile'):
+    ##     missing_profile = Profile(user=request.user)
+    ##     missing_profile.save()
 
     profile = Profile.objects.get(pk=pk)
-    if request.method == "POST":
-        current_user_profile = request.user.profile
-        data = request.POST
-        action = data.get("follow")
-        if action == "follow":
-            current_user_profile.follows.add(profile)
-        elif action == "unfollow":
-            current_user_profile.follows.remove(profile)
-        current_user_profile.save()
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            current_user_profile = request.user.profile
+            data = request.POST
+            action = data.get("follow")
+            if action == "follow":
+                current_user_profile.follows.add(profile)
+            elif action == "unfollow":
+                current_user_profile.follows.remove(profile)
+            current_user_profile.save()
     return render(request, "dwitter/profile.html", {"profile": profile})
