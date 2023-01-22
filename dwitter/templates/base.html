@@ -14,22 +14,31 @@
 <body>
     <a href="{% url 'dwitter:dashboard' %} ">
     <section class="hero is-small is-success mb-4">
+        <div class="hero-head">
+            <nav class="navbar">
+              <div class="container">
+                <div id="navbarMenuHeroA" class="navbar-menu">
+                  <div class="navbar-end">
+                    {% if user.is_authenticated %}
+                        <a class="navbar-item" href="{% url 'dwitter:password_change' %}">Change password</a>
+                        <a class="navbar-item" href="{% url 'dwitter:logout' %}">Logout</a>
+                    {% else %}
+                      <a class="navbar-item" href="{% url 'dwitter:register' %}">Register</a>
+                      <a class="navbar-item" href="{% url 'dwitter:login' %}">Login</a>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </nav>
+          </div>
         <div class="hero-body">
-            <h1 class="title is-1">Dwitter</h1>
+            <h1 class="title is-1">
+                <a href="{% url 'dwitter:dashboard' %}">Dwitter</a>
+            </h1>
             <p class="subtitle is-4">
                 Your tiny social network built with Django
             </p>
-            <p class="subtitle is-6">
-                Hello, {{ user.username|default:'Guest' }}!
-                <div>
-                    {% if user.is_authenticated %}
-                        <p><a href="{% url 'dwitter:password_change' %}">Change password</a></p>
-                        <p><a href="{% url 'dwitter:logout' %}">Logout</a></p>
-                    {% else %}
-                        <a href="{% url 'dwitter:login' %}">Login</a>
-                    {% endif %}
-                </div>
-            </p>
+            Hello, {{ user.username|default:'Guest' }}!
         </div>
     </section>
     </a>

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
-from .forms import DweetForm
+from .forms import DweetForm, CustomUserCreationForm
 from .models import Dweet, Profile
+from django.contrib.auth import login
 
 
 def dashboard(request):
@@ -53,3 +54,17 @@ def profile(request, pk):
                 current_user_profile.follows.remove(profile)
             current_user_profile.save()
     return render(request, "dwitter/profile.html", {"profile": profile})
+
+
+def register(request):
+    if request.method == "GET":
+        return render(
+            request, "registration/register.html",
+            {"form": CustomUserCreationForm}
+        )
+    elif request.method == "POST":
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect("dwitter:dashboard")
