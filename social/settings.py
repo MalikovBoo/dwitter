@@ -140,3 +140,5 @@ ALLOWED_HOSTS = [
     'malikovboo-first-project.herokuapp.com', # your herokuapp url
     '127.0.0.1'
 ]
+
+CSRF_TRUSTED_ORIGINS = ['https://malikovboo-first-project.herokuapp.com']
