@@ -137,8 +137,8 @@ DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 
 ALLOWED_HOSTS = [
     '0.0.0.0',
-    'malikovboo-first-project.herokuapp.com', # your herokuapp url
+    'my_heroku_app_name.herokuapp.com', # your herokuapp url
     '127.0.0.1'
 ]
 
-CSRF_TRUSTED_ORIGINS = ['https://malikovboo-first-project.herokuapp.com']
+CSRF_TRUSTED_ORIGINS = ['https://my_heroku_app_name.herokuapp.com']
