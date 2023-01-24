@@ -135,4 +135,8 @@ EMAIL_PORT = 1025
 
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 
-ALLOWED_HOSTS = ['your-app-name.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = [
+    '0.0.0.0',
+    'malikovboo-first-project.herokuapp.com', # your herokuapp url
+    '127.0.0.1'
+]
